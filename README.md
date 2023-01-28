@@ -1,4 +1,1 @@
 # Learn RabbitMQ
-
-## 
-
