@@ -1,13 +1,17 @@
-import pika
+import logging
 from contextlib import contextmanager
+
+import pika
+
+logger = logging.getLogger(__name__)
 
 
 @contextmanager
 def connection_manager(host: str = "localhost"):
     try:
-        print("opening connection")
+        logger.info("opening connection")
         connection = pika.BlockingConnection(pika.ConnectionParameters(host=host))
         yield connection
     finally:
-        print("closing connection")
+        logger.info("closing connection")
         connection.close()

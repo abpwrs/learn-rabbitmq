@@ -1,11 +1,16 @@
 #!/usr/bin/env python
-import pika
+import logging
 import sys
 
+import pika
+
 from src.connection_manager import connection_manager
+from src.logging import configure, get_pid_file_logger
+
+configure(logging.INFO)
+logger = get_pid_file_logger("02")
 
 with connection_manager() as connection:
-
     channel = connection.channel()
 
     channel.queue_declare(queue="task_queue", durable=True)
@@ -19,4 +24,4 @@ with connection_manager() as connection:
             delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE
         ),
     )
-    print(" [x] Sent %r" % message)
+    logger.info("Sent %r" % message)
